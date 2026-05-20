@@ -1,0 +1,278 @@
+# General
+press_enter=Нажмите Enter...
+your_choice=Ваш выбор:
+error_invalid=Неверный ввод.
+already_taken=Этот предмет уже взят.
+wrong_item=Здесь не то, что нужно...
+item_added=Предмет добавлен в инвентарь.
+room_complete=Комната пройдена!
+items_collected=Все предметы собраны!
+progress_not_completed=не пройдена
+location_locked=Цитадель ещё закрыта. Зачаруйте всё оружие!
+location_completed=пройдена
+location_open=открыта
+enchanted_status=ЗАЧАРОВАНО
+normal_status=обычное
+player_death_restart=Вы погибли... Игра начинается заново.
+
+# Intro
+intro_title=ПРОЛОГ
+intro_line1=Мир погрузился во тьму...
+intro_line2=В древних землях спрятаны три источника силы.
+intro_line3=Зачаровав всё оружие, вы сможете войти в Цитадель Теней.
+intro_line4=Там ждёт Азазель - повелитель тьмы.
+intro_line5=Соберите силу, пока мрак не поглотил мир.
+intro_line6=Ваше путешествие начинается сейчас...
+intro_press_enter=чтобы продолжить
+
+# Main menu
+main_menu_title=ГЛАВНОЕ МЕНЮ
+main_menu_new_game=Новая игра
+main_menu_exit=Выход
+main_menu_error=Выберите 1 или 2.
+main_menu_press_enter=Ваш выбор:
+
+# New game
+new_game_title=НОВАЯ ИГРА
+new_game_line1=Вы просыпаетесь на руинах древнего мира...
+new_game_line2=Вдали виднеются таинственные башни и забытые святыни.
+new_game_line3=Каждая локация скрывает часть древней силы.
+new_game_line4=Собирайте предметы в правильном порядке, следуйте подсказкам.
+new_game_line5=Побеждайте врагов, чтобы зачаровать оружие.
+new_game_line6=Когда три оружия будут зачарованы, откроется Цитадель Теней.
+new_game_continue=чтобы начать путешествие
+
+exit_title=ВЫХОД
+exit_subtitle=Спасибо за игру! До новых встреч!
+
+# Progress menu
+location_menu_title=МЕНЮ ЛОКАЦИЙ
+location_menu_1=Холодная Таверна
+location_menu_2=Бесконечные Башни
+location_menu_3=Колыбель Элизабет
+location_menu_4=Цитадель Теней
+location_menu_back=Назад
+location_choice_error=Выберите корректный пункт.
+progress_title=ВАШ ПРОГРЕСС
+progress_chilling=Холодная Таверна:
+progress_boundless=Бесконечные Башни:
+progress_elizabeth=Колыбель Элизабет:
+progress_shadow=Цитадель Теней:
+progress_completed_text=пройдена
+progress_open=открыта
+
+# Shared location texts
+chilling_action_title=Что вы будете делать?
+chilling_action_1=Осмотреть угол 1
+chilling_action_2=Осмотреть угол 2
+chilling_action_3=Осмотреть угол 3
+chilling_action_4=Осмотреть угол 4
+chilling_action_5=Попробовать завершить локацию
+chilling_found=Вы нашли:
+chilling_corner_empty=Угол пуст. Здесь больше ничего нет.
+chilling_wrong_item=Это не тот предмет, который нужен сейчас.
+chilling_dont_rush=Не спешите. Порядок имеет значение.
+chilling_take=Вы берёте
+chilling_number=No
+chilling_corner_1=Угол 1
+chilling_corner_2=Угол 2
+chilling_corner_3=Угол 3
+chilling_corner_4=Угол 4
+
+# Chilling Taverns (Кинжалы - нужны металл, кожа, камень для заточки, масло)
+chilling_title=ХОЛОДНАЯ ТАВЕРНА
+chilling_entry=Старая таверна, где кузнецы точили клинки...
+chilling_entry2=В углах разбросаны забытые материалы.
+chilling_quest=Найдите четыре предмета в правильном порядке.
+chilling_quest2=Каждый предмет нужно брать строго по очереди.
+chilling_quest3=Если ошибётесь - придётся начинать заново.
+chilling_quest4=После сбора всех предметов вас ждёт Кузнец и битва с Магом.
+chilling_items_title=Что здесь можно найти:
+chilling_items_steel=Острейшая сталь
+chilling_items_leather=Кожа для рукояти
+chilling_items_stone=Точильный камень
+chilling_items_oil=Смазочное масло
+chilling_items_steel_desc=Отличная сталь для лезвий
+chilling_items_leather_desc=Прочная кожа для обмотки рукояти
+chilling_items_stone_desc=Мелкозернистый камень для заточки
+chilling_items_oil_desc=Масло, сохраняющее металл от ржавчины
+chilling_press_start=чтобы обыскать таверну
+chilling_hint_1=Подсказка: сначала возьмите основу клинка - сталь
+chilling_hint_2=Подсказка: теперь нужна кожа для рукояти
+chilling_hint_3=Подсказка: затем возьмите точильный камень
+chilling_hint_4=Подсказка: последним будет масло для ухода
+
+blacksmith_chilling_title=КУЗНЕЦ ТАВЕРНЫ
+blacksmith_chilling_intro=Кузнец осматривает ваши материалы...
+blacksmith_chilling_dialogue=Если порядок верен, я выкую зачарованные кинжалы.
+blacksmith_chilling_prompt=Введите последовательность номеров через дефис (например: 1-2-3-4)
+blacksmith_chilling_your_sequence=Ваша последовательность
+blacksmith_chilling_success=Кузнец выковывает идеальные кинжалы! Они светятся магией!
+blacksmith_chilling_fail=Кузнец качает головой. Порядок неверен. Кинжалы обычные.
+
+# Boundless Towers (Лук - нужны дерево, тетива, наконечники, крылья для баланса)
+boundless_title=БЕСКОНЕЧНЫЕ БАШНИ
+boundless_entry=Башни, где мастера луков хранили свои секреты...
+boundless_entry2=Здесь путь к силе скрыт в порядке и памяти.
+boundless_items_title=Что здесь можно найти:
+boundless_items_wood=Древесина тиса
+boundless_items_string=Тетива из жил
+boundless_items_stone=Наконечники стрел
+boundless_items_wings=Балансировочные крылья
+boundless_items_wood_desc=Упругая древесина для основы лука
+boundless_items_string_desc=Прочная тетива из жил горного зверя
+boundless_items_stone_desc=Острые каменные наконечники для стрел
+boundless_items_wings_desc=Крылья для стабилизации полёта стрелы
+boundless_press_start=чтобы подняться на башню
+boundless_hint_1=Подсказка: начните с основы лука - древесины
+boundless_hint_2=Подсказка: теперь нужна тетива
+boundless_hint_3=Подсказка: затем возьмите наконечники
+boundless_hint_4=Подсказка: последними будут балансировочные крылья
+
+blacksmith_boundless_title=КУЗНЕЦ БАШЕН
+blacksmith_boundless_intro=Мастер луков ждёт правильный порядок...
+blacksmith_boundless_dialogue=Соберите лук правильно, и я зачарую его.
+blacksmith_boundless_success=Лук собран идеально! Он поёт в ваших руках!
+blacksmith_boundless_fail=Порядок сборки неверен. Лук остаётся обычным.
+
+# Elizabeth Cradle (Посох - нужны слеза силы, колыбельная магии, зеркало фокуса, цветок жизни)
+elizabeth_title=КОЛЫБЕЛЬ ЭЛИЗАБЕТ
+elizabeth_entry=Святилище, где маги создавали свои посохи...
+elizabeth_entry2=Каждый предмет здесь связан с древней магией.
+elizabeth_items_title=Что здесь можно найти:
+elizabeth_items_tear=Слеза феникса
+elizabeth_items_lullaby=Колыбельная магии
+elizabeth_items_mirror=Зеркало фокуса
+elizabeth_items_flower=Цветок жизни
+elizabeth_items_tear_desc=Магическая слеза, сохранившая древнюю силу
+elizabeth_items_lullaby_desc=Мелодия, усиливающая магический резонанс
+elizabeth_items_mirror_desc=Зеркало для фокусировки энергии
+elizabeth_items_flower_desc=Цветок, впитывающий магию природы
+elizabeth_press_start=чтобы войти в святилище
+elizabeth_hint_1=Подсказка: сначала возьмите источник силы - слезу феникса
+elizabeth_hint_2=Подсказка: затем активируйте магию колыбельной
+elizabeth_hint_3=Подсказка: теперь нужно зеркало для фокусировки
+elizabeth_hint_4=Подсказка: последним будет цветок, впитывающий всю силу
+elizabeth_dont_rush=Порядок сбора нарушен. Магия отвергает вас.
+
+blacksmith_elizabeth_title=КУЗНЕЦ КОЛЫБЕЛИ
+blacksmith_elizabeth_intro=Старый маг изучает ваши компоненты...
+blacksmith_elizabeth_dialogue=Соберите посох правильно, и я зачарую его.
+blacksmith_elizabeth_success=Посох впитывает магию и начинает светиться!
+blacksmith_elizabeth_fail=Посох не принял силу. Порядок неверен.
+
+# Shadow Keep
+shadow_title=ЦИТАДЕЛЬ ТЕНЕЙ
+shadow_entry=Врата тёмной крепости дрожат от древней силы...
+shadow_entry2=Здесь заканчивается путь и начинается последняя битва.
+shadow_entry3=Только три зачарованных оружия откроют проход...
+shadow_weapons_title=СИЛА ОРУЖИЯ
+shadow_weapon_knives=Зачарованные кинжалы
+shadow_weapon_bow=Зачарованный лук
+shadow_weapon_staff=Зачарованный посох
+shadow_weapon_count=Зачаровано оружий
+shadow_weapons_ready=Вся сила с вами! Врата открываются...
+shadow_no_weapons=Силы недостаточно... Врата не открываются.
+
+# Combat system
+combat_player=Ваше здоровье
+combat_action_title=ВАШИ ДЕЙСТВИЯ:
+combat_action_1=Атаковать
+combat_action_2=Особая атака
+combat_action_3=Защита
+combat_action_4=Исцеление
+combat_you_attack=Вы атакуете
+combat_you_damage=Вы наносите
+combat_enemy_attack=Враг наносит
+combat_damage=урона!
+combat_heal=Вы исцеляетесь до
+combat_defend=Вы встаёте в защитную стойку.
+combat_defend_half=Урон от атаки врага уменьшен вдвое!
+combat_invalid=Неверное действие. Попробуйте снова.
+combat_combo=СИЛА ТРЁХ! Все оружия атакуют одновременно!
+combat_hit=Попадание!
+combat_miss=Промах!
+combat_throw=Маг исчез! Куда бросить оружие?
+combat_victory=Враг повержен!
+combat_defeat=Поражение... Тьма поглощает вас.
+
+# Directions
+combat_direction_1=впереди
+combat_direction_2=слева
+combat_direction_3=справа
+combat_direction_4=сзади
+
+# Battle enemies
+battle_mage_title=МАГ ТАВЕРНЫ
+battle_mage_warning=Маг исчез и появился
+battle_mage_victory=Маг повержен! Ваши кинжалы впитали его силу!
+battle_mage_defeat=Маг оказался сильнее...
+
+battle_shadow_title=ТЕНЬ БАШЕН
+battle_shadow_ability=Тень начинает светиться багровым!
+battle_shadow_ability_warning=ВНИМАНИЕ! Тень готовит копирование! Защищайтесь или атака создаст копию!
+shadow_copy_created=Тень создала копию! Теперь их стало
+shadow_copies_count=Копий тени
+shadow_copies_death=Тени заполняют комнату! Вы в ловушке!
+shadow_copies_defeat=Армия копий поглотила вас...
+
+battle_ghost_title=ПРИЗРАК КОЛЫБЕЛИ
+battle_ghost_ability=Призрак становится эфемерным!
+battle_ghost_vulnerable=Призрак сейчас уязвим только для атаки посохом!
+ghost_immune=Призрак неуязвим! Используйте посох!
+
+battle_azazel_title=АЗАЗЕЛЬ - ПОВЕЛИТЕЛЬ ТЬМЫ
+battle_azazel_ability=Азазель наполняется тьмой! Следующая атака будет вдвое сильнее!
+battle_azazel_victory=Азазель повержен! Тьма отступает... Мир спасён!
+battle_azazel_defeat=Азазель сокрушил вас... Тьма накрывает мир.
+battle_azazel_attack_knives=Атака кинжалами
+battle_azazel_attack_bow=Атака луком
+battle_azazel_attack_staff=Атака посохом
+battle_azazel_attack_combo=БОЖЕСТВЕННОЕ КОМБО - вся сила сразу
+battle_azazel_defend=Защититься
+battle_azazel_heal=Исцелиться
+azazel_weapons_required=У вас не всё оружие зачаровано! Азазель не замечает вас...
+
+# Victory / Defeat screens
+victory_title=ПОБЕДА
+victory_border_top=+----------------------------------------------------------+
+victory_title_center=|                    ВЕЛИКАЯ ПОБЕДА!                      |
+victory_border_mid=|----------------------------------------------------------|
+victory_text_1=|   Азазель повержен! Тьма отступает, и свет снова      |
+victory_text_2=|   возвращается в этот мир.                            |
+victory_border_bottom=+----------------------------------------------------------+
+
+defeat_title=ПОРАЖЕНИЕ
+defeat_border_top=+----------------------------------------------------------+
+defeat_title_center=|                    ПОРАЖЕНИЕ...                         |
+defeat_border_mid=|----------------------------------------------------------|
+defeat_text_1=|   Азазель оказался сильнее. Тьма накрывает мир,        |
+defeat_text_2=|   и надежда угасает вместе с последним лучом света.    |
+defeat_border_bottom=+----------------------------------------------------------+
+
+# End game menu
+end_border_top=+----------------------------------------------------------+
+end_title=|                    ИГРА ЗАВЕРШЕНА                       |
+end_border_mid=|----------------------------------------------------------+
+end_option_1=|  1. Выйти из игры                                      |
+end_option_2=|  2. Начать новую игру                                  |
+end_border_bottom=+----------------------------------------------------------+
+
+exit_border_top=+----------------------------------------------------------+
+exit_title=|                    ДО СВИДАНИЯ!                        |
+exit_border_mid=|----------------------------------------------------------+
+exit_text=|   Спасибо, что прошли игру! До новых встреч!           |
+exit_border_bottom=+----------------------------------------------------------+
+
+restart_text=|           Начинаем новое приключение...                 |
+
+# Inventory
+inventory_knives=Кинжалы
+inventory_bow=Лук
+inventory_staff=Посох
+
+# Victory/Defeat messages
+battle_victory=Поздравляю! Вы одержали победу!
+battle_defeat=Вы пали в бою...
+
+battle_shadow_warning=ВНИМАНИЕ! Тень начинает светиться багровым! Если атакуете в следующем ходу - она создаст копию! Защищайтесь!
