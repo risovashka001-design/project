@@ -6,9 +6,9 @@
 class Screen {
  public:
   static void Clear();
+  static void DrawBorder(const std::string& title = "");
   static void WaitForEnter();
   static void WaitForEnter(const std::string& message);
-  static void DrawBorder(const std::string& title = "");
 };
 
 #endif

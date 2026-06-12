@@ -15,7 +15,7 @@ class ShadowKeep : public Location {
   void BattleWithAzazel();
   void ShowVictory();
   void ShowDefeat();
-  void ShowEndGameMenu();  
+  void ShowEndGameMenu();
 
   bool completed_;
 };

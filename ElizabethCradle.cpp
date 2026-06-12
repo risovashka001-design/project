@@ -197,7 +197,9 @@ void ElizabethCradle::MeetBlacksmith() {
 }
 
 void ElizabethCradle::BattleWithGhost() {
-  Ghost ghost;
+  Enemy ghost(EnemyType::Ghost,
+              TextManager::GetInstance().Get("battle_ghost_title"), 110, 10);
+
   bool victory =
       Combat::StartFight(ghost, weapon_name_, enchanted_ ? 30 : 10, enchanted_);
   if (victory) {

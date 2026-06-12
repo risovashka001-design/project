@@ -197,7 +197,9 @@ void BoundlessTowers::MeetBlacksmith() {
 }
 
 void BoundlessTowers::BattleWithShadow() {
-  Shadow shadow;
+  Enemy shadow(EnemyType::Shadow,
+               TextManager::GetInstance().Get("battle_shadow_title"), 140, 12);
+
   bool victory = Combat::StartFight(shadow, weapon_name_, enchanted_ ? 30 : 10,
                                     enchanted_);
   if (victory) {

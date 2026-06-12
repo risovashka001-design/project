@@ -10,108 +10,193 @@
 
 using namespace std;
 
-Enemy::Enemy(const string& name, Health health, Damage damage)
-    : name_(name), health_(health), max_health_(health), base_damage_(damage) {}
-
-void Enemy::TakeDamage(Damage damage) {
-  health_ -= damage;
-  if (health_ < 0) health_ = 0;
-}
-
-Damage Enemy::GetAttackDamage() const { return base_damage_ + (rand() % 10); }
-
-Mage::Mage()
-    : Enemy(TextManager::GetInstance().Get("battle_mage_title"), 120, 10),
+Enemy::Enemy(EnemyType type, const string& name, Health health, Damage damage)
+    : type_(type),
+      stats_{name, health, health, damage},
       invisible_(false),
-      invisible_position_(0) {}
-
-void Mage::SpecialAbility() {
-  invisible_ = true;
-  invisible_position_ = 1 + (rand() % 4);
-}
-
-string Mage::GetAbilityWarning() const {
-  if (!invisible_) return "";
-  return TextManager::GetInstance().Get("battle_mage_warning") + " " +
-         TextManager::GetInstance().Get("combat_direction_" +
-                                        to_string(invisible_position_));
-}
-
-Shadow::Shadow()
-    : Enemy(TextManager::GetInstance().Get("battle_shadow_title"), 140, 12),
+      invisible_position_(0),
       enraged_(false),
       preparing_(false),
       copy_count_(0),
-      turn_counter_(0) {}
+      turn_counter_shadow_(0),
+      ethereal_(false),
+      staff_vulnerable_(false),
+      turn_counter_ghost_(0),
+      empowered_(false) {}
 
-void Shadow::SpecialAbility() {
-  if (enraged_) {
-    AddCopy();
-  }
-  enraged_ = false;
-  preparing_ = false;
+void Enemy::TakeDamage(Damage damage) {
+  stats_.health -= damage;
+  if (stats_.health < 0) stats_.health = 0;
 }
 
-void Shadow::PrepareAbility() {
-  turn_counter_++;
-  if (turn_counter_ >= 2) {
+Damage Enemy::GetAttackDamage() const {
+  return stats_.base_damage + (rand() % 10);
+}
+
+void Enemy::UpdateAbility() {
+  switch (type_) {
+    case EnemyType::Mage:
+      break;
+
+    case EnemyType::Shadow:
+      break;
+
+    case EnemyType::Ghost:
+      turn_counter_ghost_++;
+      if (turn_counter_ghost_ % 2 == 0) {
+        ethereal_ = true;
+        staff_vulnerable_ = true;
+      } else {
+        ethereal_ = false;
+        staff_vulnerable_ = false;
+      }
+      break;
+
+    case EnemyType::Azazel:
+      empowered_ = (rand() % 100) < 35;
+      break;
+  }
+}
+
+void Enemy::PrepareAbility() {
+  if (type_ != EnemyType::Shadow) return;
+
+  turn_counter_shadow_++;
+  if (turn_counter_shadow_ >= 2) {
     preparing_ = true;
     enraged_ = true;
-    turn_counter_ = 0;
+    turn_counter_shadow_ = 0;
   }
 }
 
-string Shadow::GetAbilityWarning() const {
-  if (preparing_) {
-    return TextManager::GetInstance().Get("battle_shadow_warning");
+void Enemy::ResetAbility() {
+  switch (type_) {
+    case EnemyType::Mage:
+      invisible_ = false;
+      break;
+    case EnemyType::Shadow:
+      enraged_ = false;
+      preparing_ = false;
+      break;
+    case EnemyType::Ghost:
+      ethereal_ = false;
+      staff_vulnerable_ = false;
+      break;
+    case EnemyType::Azazel:
+      empowered_ = false;
+      break;
   }
-  if (enraged_ && !preparing_) {
-    return TextManager::GetInstance().Get("battle_shadow_ability_warning");
+}
+
+string Enemy::GetAbilityWarning() const {
+  switch (type_) {
+    case EnemyType::Mage:
+      if (!invisible_) return "";
+      return TextManager::GetInstance().Get("battle_mage_warning") + " " +
+             TextManager::GetInstance().Get("combat_direction_" +
+                                            to_string(invisible_position_));
+
+    case EnemyType::Shadow:
+      if (preparing_) {
+        return TextManager::GetInstance().Get("battle_shadow_warning");
+      }
+      if (enraged_ && !preparing_) {
+        return TextManager::GetInstance().Get("battle_shadow_ability_warning");
+      }
+      return "";
+
+    case EnemyType::Ghost:
+      if (!ethereal_) return "";
+      return TextManager::GetInstance().Get("battle_ghost_vulnerable");
+
+    case EnemyType::Azazel:
+      if (!empowered_) return "";
+      return TextManager::GetInstance().Get("battle_azazel_ability");
   }
   return "";
 }
 
-Ghost::Ghost()
-    : Enemy(TextManager::GetInstance().Get("battle_ghost_title"), 110, 10),
-      ethereal_(false),
-      staff_vulnerable_(false),
-      turn_counter_(0) {}
+bool Enemy::IsAbilityActive() const {
+  switch (type_) {
+    case EnemyType::Mage:
+      return invisible_;
+    case EnemyType::Shadow:
+      return enraged_;
+    case EnemyType::Ghost:
+      return ethereal_;
+    case EnemyType::Azazel:
+      return empowered_;
+  }
+  return false;
+}
 
-void Ghost::SpecialAbility() {
-  turn_counter_++;
-  if (turn_counter_ % 2 == 0) {
-    ethereal_ = true;
-    staff_vulnerable_ = true;
-  } else {
-    ethereal_ = false;
-    staff_vulnerable_ = false;
+int Enemy::GetCopyCount() const {
+  return (type_ == EnemyType::Shadow) ? copy_count_ : 0;
+}
+
+void Enemy::AddCopy() {
+  if (type_ == EnemyType::Shadow) {
+    copy_count_++;
   }
 }
 
-string Ghost::GetAbilityWarning() const {
-  if (!ethereal_) return "";
-  return TextManager::GetInstance().Get("battle_ghost_vulnerable");
+void Enemy::ResetCopies() {
+  if (type_ == EnemyType::Shadow) {
+    copy_count_ = 0;
+  }
 }
 
-Azazel::Azazel()
-    : Enemy(TextManager::GetInstance().Get("battle_azazel_title"), 250, 20),
-      empowered_(false) {}
-
-void Azazel::SpecialAbility() { empowered_ = (rand() % 100) < 35; }
-
-string Azazel::GetAbilityWarning() const {
-  if (!empowered_) return "";
-  return TextManager::GetInstance().Get("battle_azazel_ability");
+bool Enemy::IsStaffVulnerable() const {
+  return (type_ == EnemyType::Ghost) && ethereal_ && staff_vulnerable_;
 }
 
-Damage Azazel::GetModifiedDamage(Damage damage) const {
-  return empowered_ ? damage * 2 : damage;
+Damage Enemy::GetModifiedDamage(Damage damage) const {
+  return (type_ == EnemyType::Azazel && empowered_) ? damage * 2 : damage;
+}
+
+int Enemy::GetInvisiblePosition() const {
+  return (type_ == EnemyType::Mage) ? invisible_position_ : 0;
+}
+
+bool Enemy::ProcessThrowAction(int& player_damage, Damage weapon_damage) {
+  if (type_ != EnemyType::Mage || !invisible_) {
+    return false;
+  }
+
+  cout << "\n  " << TextManager::GetInstance().Get("combat_throw") << "\n";
+  cout << "  1. " << TextManager::GetInstance().Get("combat_direction_1")
+       << "\n";
+  cout << "  2. " << TextManager::GetInstance().Get("combat_direction_2")
+       << "\n";
+  cout << "  3. " << TextManager::GetInstance().Get("combat_direction_3")
+       << "\n";
+  cout << "  4. " << TextManager::GetInstance().Get("combat_direction_4")
+       << "\n";
+  cout << "  " << TextManager::GetInstance().Get("main_menu_press_enter")
+       << " ";
+
+  int dir;
+  cin >> dir;
+
+  if (dir == invisible_position_) {
+    player_damage = weapon_damage + 15;
+    cout << "\n  " << TextManager::GetInstance().Get("combat_hit") << "\n";
+    return true;
+  } else {
+    cout << "\n  " << TextManager::GetInstance().Get("combat_miss") << "\n";
+    player_damage = 0;
+    return true;
+  }
 }
 
 static int ReadChoice() {
   int choice = 0;
   cin >> choice;
   return choice;
+}
+
+static void ActivateMageAbility(Enemy& enemy) {
+  if (enemy.GetType() != EnemyType::Mage) return;
 }
 
 bool Combat::StartFight(Enemy& enemy, const string& weapon_name,
@@ -121,17 +206,13 @@ bool Combat::StartFight(Enemy& enemy, const string& weapon_name,
   player.Reset();
 
   enemy.ResetAbility();
-  if (auto* shadow = dynamic_cast<Shadow*>(&enemy)) {
-    shadow->ResetCopies();
-    shadow->ResetTurnCounter();
-    shadow->ResetPreparing();
-  }
-  if (auto* ghost = dynamic_cast<Ghost*>(&enemy)) {
-    ghost->ResetTurnCounter();
+  if (enemy.GetType() == EnemyType::Shadow) {
+    enemy.ResetCopies();
   }
 
   while (player.IsAlive() && enemy.IsAlive()) {
     enemy.PrepareAbility();
+    enemy.UpdateAbility();
 
     Screen::Clear();
     Screen::DrawBorder(enemy.GetName());
@@ -144,21 +225,19 @@ bool Combat::StartFight(Enemy& enemy, const string& weapon_name,
     string warning = enemy.GetAbilityWarning();
     if (!warning.empty()) cout << "\n  " << warning << "\n";
 
-    if (auto* shadow = dynamic_cast<Shadow*>(&enemy)) {
-      if (shadow->GetCopyCount() > 0) {
-        cout << "\n  " << TextManager::GetInstance().Get("shadow_copies_count")
-             << ": " << shadow->GetCopyCount() << "/4\n";
-        if (shadow->GetCopyCount() >= 4) {
-          cout << "\n  "
-               << TextManager::GetInstance().Get("shadow_copies_death") << "\n";
-          Screen::WaitForEnter();
-          Screen::Clear();
-          Screen::DrawBorder(TextManager::GetInstance().Get("defeat_title"));
-          cout << "  " << TextManager::GetInstance().Get("shadow_copies_defeat")
-               << "\n";
-          Screen::WaitForEnter();
-          return false;
-        }
+    if (enemy.GetType() == EnemyType::Shadow && enemy.GetCopyCount() > 0) {
+      cout << "\n  " << TextManager::GetInstance().Get("shadow_copies_count")
+           << ": " << enemy.GetCopyCount() << "/4\n";
+      if (enemy.GetCopyCount() >= 4) {
+        cout << "\n  " << TextManager::GetInstance().Get("shadow_copies_death")
+             << "\n";
+        Screen::WaitForEnter();
+        Screen::Clear();
+        Screen::DrawBorder(TextManager::GetInstance().Get("defeat_title"));
+        cout << "  " << TextManager::GetInstance().Get("shadow_copies_defeat")
+             << "\n";
+        Screen::WaitForEnter();
+        return false;
       }
     }
 
@@ -184,27 +263,11 @@ bool Combat::StartFight(Enemy& enemy, const string& weapon_name,
       cout << "\n  " << TextManager::GetInstance().Get("combat_you_attack")
            << " " << weapon_name << "!\n";
     } else if (choice == 2) {
-      if (dynamic_cast<Mage*>(&enemy)) {
-        auto* mage = dynamic_cast<Mage*>(&enemy);
-        cout << "\n  " << TextManager::GetInstance().Get("combat_throw")
-             << "\n";
-        cout << "  1. " << TextManager::GetInstance().Get("combat_direction_1")
-             << "\n";
-        cout << "  2. " << TextManager::GetInstance().Get("combat_direction_2")
-             << "\n";
-        cout << "  3. " << TextManager::GetInstance().Get("combat_direction_3")
-             << "\n";
-        cout << "  4. " << TextManager::GetInstance().Get("combat_direction_4")
-             << "\n";
-        cout << "  " << TextManager::GetInstance().Get("main_menu_press_enter")
-             << " ";
-        int dir = ReadChoice();
-        if (dir == mage->GetInvisiblePosition()) {
-          player_damage = weapon_damage + 15;
-          cout << "\n  " << TextManager::GetInstance().Get("combat_hit")
-               << "\n";
-        } else {
-          cout << "\n  " << TextManager::GetInstance().Get("combat_miss")
+      if (enemy.GetType() == EnemyType::Mage) {
+        bool success = enemy.ProcessThrowAction(player_damage, weapon_damage);
+        if (!success) {
+          player_damage = weapon_damage + (rand() % 5);
+          cout << "\n  " << TextManager::GetInstance().Get("combat_you_attack")
                << "\n";
         }
       } else {
@@ -224,24 +287,18 @@ bool Combat::StartFight(Enemy& enemy, const string& weapon_name,
            << "\n";
     }
 
-    auto* shadow = dynamic_cast<Shadow*>(&enemy);
-    bool shadow_created_copy = false;
-
-    if (shadow && shadow->IsAbilityActive()) {
+    if (enemy.GetType() == EnemyType::Shadow && enemy.IsAbilityActive()) {
       if (player_damage > 0 && !defended) {
-        shadow->AddCopy();
-        shadow_created_copy = true;
+        enemy.AddCopy();
         cout << "\n  " << TextManager::GetInstance().Get("shadow_copy_created")
-             << " " << shadow->GetCopyCount() << "!\n";
+             << " " << enemy.GetCopyCount() << "!\n";
       }
-      shadow->ResetAbility();
-      shadow->ResetPreparing();
+      enemy.ResetAbility();
     }
 
     if (player_damage > 0) {
-      auto* ghost = dynamic_cast<Ghost*>(&enemy);
-      if (ghost && ghost->IsAbilityActive()) {
-        if (!ghost->IsStaffVulnerable()) {
+      if (enemy.GetType() == EnemyType::Ghost && enemy.IsAbilityActive()) {
+        if (!enemy.IsStaffVulnerable()) {
           cout << "\n  " << TextManager::GetInstance().Get("ghost_immune")
                << "\n";
           player_damage = 0;
@@ -258,7 +315,7 @@ bool Combat::StartFight(Enemy& enemy, const string& weapon_name,
 
     if (!enemy.IsAlive()) break;
 
-    if (shadow && shadow->GetCopyCount() >= 4) {
+    if (enemy.GetType() == EnemyType::Shadow && enemy.GetCopyCount() >= 4) {
       Screen::Clear();
       Screen::DrawBorder(TextManager::GetInstance().Get("defeat_title"));
       cout << "\n  " << TextManager::GetInstance().Get("shadow_copies_death")
@@ -269,20 +326,19 @@ bool Combat::StartFight(Enemy& enemy, const string& weapon_name,
       return false;
     }
 
-    enemy.SpecialAbility();
+    enemy.UpdateAbility();
+
+    if (enemy.GetType() == EnemyType::Ghost && enemy.IsAbilityActive()) {
+      cout << "\n  " << TextManager::GetInstance().Get("battle_ghost_ability")
+           << "\n";
+    } else if (enemy.GetType() == EnemyType::Mage && enemy.IsAbilityActive()) {
+      cout << "\n  " << enemy.GetAbilityWarning() << "\n";
+    }
 
     Damage enemy_damage = enemy.GetAttackDamage();
 
-    if (dynamic_cast<Ghost*>(&enemy)) {
-      if (enemy.IsAbilityActive()) {
-        cout << "\n  " << TextManager::GetInstance().Get("battle_ghost_ability")
-             << "\n";
-      }
-    } else if (dynamic_cast<Mage*>(&enemy)) {
-      if (enemy.IsAbilityActive()) {
-        cout << "\n  " << enemy.GetAbilityWarning() << "\n";
-      }
-    } else if (dynamic_cast<Azazel*>(&enemy)) {
+    if (enemy.GetType() == EnemyType::Azazel && enemy.IsAbilityActive()) {
+      enemy_damage = enemy.GetModifiedDamage(enemy_damage);
     }
 
     if (defended) {
@@ -314,7 +370,9 @@ bool Combat::StartFight(Enemy& enemy, const string& weapon_name,
   return false;
 }
 
-bool Combat::StartAzazelFight(Azazel& enemy, bool has_all_enchanted) {
+bool Combat::StartAzazelFight(Enemy& enemy, bool has_all_enchanted) {
+  if (enemy.GetType() != EnemyType::Azazel) return false;
+
   if (!has_all_enchanted) {
     Screen::Clear();
     Screen::DrawBorder(TextManager::GetInstance().Get("defeat_title"));
@@ -403,8 +461,9 @@ bool Combat::StartAzazelFight(Azazel& enemy, bool has_all_enchanted) {
 
     if (!enemy.IsAlive()) break;
 
-    enemy.SpecialAbility();
+    enemy.UpdateAbility();
     Damage enemy_damage = enemy.GetAttackDamage();
+
     if (enemy.IsAbilityActive()) {
       enemy_damage = enemy.GetModifiedDamage(enemy_damage);
       cout << "\n  " << TextManager::GetInstance().Get("battle_azazel_ability")

@@ -66,7 +66,9 @@ void ShadowKeep::ShowWeaponsStatus() {
 }
 
 void ShadowKeep::BattleWithAzazel() {
-  Azazel azazel;
+  Enemy azazel(EnemyType::Azazel,
+               TextManager::GetInstance().Get("battle_azazel_title"), 250, 20);
+
   auto& player = Player::GetInstance();
   bool has_all_enchanted = (player.GetInventory().EnchantedCount() >= 3);
   bool victory = Combat::StartAzazelFight(azazel, has_all_enchanted);

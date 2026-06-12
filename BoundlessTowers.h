@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 
+#include "Combat.h"  
 #include "Location.h"
 
 class BoundlessTowers : public Location {

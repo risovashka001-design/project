@@ -205,7 +205,9 @@ void ChillingTaverns::MeetBlacksmith() {
 }
 
 void ChillingTaverns::BattleWithMage() {
-  Mage mage;
+  Enemy mage(EnemyType::Mage,
+             TextManager::GetInstance().Get("battle_mage_title"), 120, 10);
+
   bool victory =
       Combat::StartFight(mage, weapon_name_, enchanted_ ? 30 : 10, enchanted_);
   if (victory) {
