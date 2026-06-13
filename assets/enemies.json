@@ -1,0 +1,60 @@
+{
+  "enemies": {
+    "mage": {
+      "name_key": "battle_mage_title",
+      "health": 120,
+      "base_damage": 10,
+      "ability_type": "invisibility",
+      "weapon_vulnerability": "knives",
+      "ability_params": {
+        "positions": [1, 2, 3, 4],
+        "warning_key": "battle_mage_warning"
+      }
+    },
+    "shadow": {
+      "name_key": "battle_shadow_title",
+      "health": 140,
+      "base_damage": 12,
+      "ability_type": "copy_on_hit",
+      "weapon_vulnerability": "bow",
+      "ability_params": {
+        "prep_turns": 2,
+        "max_copies": 4,
+        "warning_prepare_key": "battle_shadow_warning",
+        "warning_active_key": "battle_shadow_ability_warning",
+        "copy_created_key": "shadow_copy_created",
+        "copies_count_key": "shadow_copies_count",
+        "copies_death_key": "shadow_copies_death",
+        "copies_defeat_key": "shadow_copies_defeat"
+      }
+    },
+    "ghost": {
+      "name_key": "battle_ghost_title",
+      "health": 110,
+      "base_damage": 10,
+      "ability_type": "ethereal",
+      "weapon_vulnerability": "staff",
+      "ability_params": {
+        "cycle_turns": 2,
+        "staff_vulnerable": true,
+        "ability_key": "battle_ghost_ability",
+        "vulnerable_key": "battle_ghost_vulnerable",
+        "immune_key": "ghost_immune"
+      }
+    },
+    "azazel": {
+      "name_key": "battle_azazel_title",
+      "health": 250,
+      "base_damage": 20,
+      "ability_type": "empower",
+      "weapon_vulnerability": "all",
+      "ability_params": {
+        "chance": 35,
+        "damage_multiplier": 2,
+        "warning_key": "battle_azazel_ability"
+      },
+      "special_requirement": "all_weapons_enchanted",
+      "special_requirement_key": "azazel_weapons_required"
+    }
+  }
+}

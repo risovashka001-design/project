@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <iostream>
 
+#include "AssetManager.h"
 #include "Player.h"
 #include "Screen.h"
 #include "TextManager.h"
@@ -66,8 +67,11 @@ void ShadowKeep::ShowWeaponsStatus() {
 }
 
 void ShadowKeep::BattleWithAzazel() {
-  Enemy azazel(EnemyType::Azazel,
-               TextManager::GetInstance().Get("battle_azazel_title"), 250, 20);
+  auto& assets = AssetManager::GetInstance();
+  const auto& enemyAsset = assets.GetEnemy("azazel");
+
+  Enemy azazel;
+  azazel.LoadFromAsset(enemyAsset);
 
   auto& player = Player::GetInstance();
   bool has_all_enchanted = (player.GetInventory().EnchantedCount() >= 3);

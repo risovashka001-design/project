@@ -19,10 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AssetManager.h" />
     <ClInclude Include="BoundlessTowers.h" />
     <ClInclude Include="ChillingTaverns.h" />
     <ClInclude Include="Combat.h" />
     <ClInclude Include="ElizabethCradle.h" />
+    <ClInclude Include="EnemyData.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Intro.h" />
     <ClInclude Include="Location.h" />
@@ -35,6 +37,7 @@
     <ClInclude Include="Types.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="BoundlessTowers.cpp" />
     <ClCompile Include="ChillingTaverns.cpp" />
     <ClCompile Include="Combat.cpp" />

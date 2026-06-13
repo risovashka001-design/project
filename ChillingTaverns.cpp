@@ -4,6 +4,7 @@
 #include <ctime>
 #include <iostream>
 
+#include "AssetManager.h"
 #include "Combat.h"
 #include "Player.h"
 #include "Screen.h"
@@ -15,25 +16,29 @@ ChillingTaverns::ChillingTaverns()
     : completed_(false), enchanted_(false), next_order_(1) {}
 
 void ChillingTaverns::Play() {
+  auto& assets = AssetManager::GetInstance();
+  const auto& locAsset = assets.GetLocation("ChillingTaverns");
+
   Screen::Clear();
-  Screen::DrawBorder(TextManager::GetInstance().Get("chilling_title"));
-  cout << "  " << TextManager::GetInstance().Get("chilling_entry") << "\n";
-  cout << "  " << TextManager::GetInstance().Get("chilling_entry2") << "\n\n";
+  Screen::DrawBorder(TextManager::GetInstance().Get(locAsset.title_key));
+  cout << "  " << TextManager::GetInstance().Get(locAsset.entry_key) << "\n";
+  cout << "  " << TextManager::GetInstance().Get(locAsset.entry2_key) << "\n\n";
   cout << "  " << TextManager::GetInstance().Get("chilling_quest") << "\n";
   cout << "  " << TextManager::GetInstance().Get("chilling_quest2") << "\n";
   cout << "  " << TextManager::GetInstance().Get("chilling_quest3") << "\n";
   cout << "  " << TextManager::GetInstance().Get("chilling_quest4") << "\n";
 
-  items_ = {
-      {0, TextManager::GetInstance().Get("chilling_items_steel"),
-       TextManager::GetInstance().Get("chilling_items_steel_desc"), false, 1},
-      {0, TextManager::GetInstance().Get("chilling_items_leather"),
-       TextManager::GetInstance().Get("chilling_items_leather_desc"), false, 2},
-      {0, TextManager::GetInstance().Get("chilling_items_stone"),
-       TextManager::GetInstance().Get("chilling_items_stone_desc"), false, 3},
-      {0, TextManager::GetInstance().Get("chilling_items_oil"),
-       TextManager::GetInstance().Get("chilling_items_oil_desc"), false, 4},
-  };
+  items_.clear();
+  for (const auto& itemAsset : locAsset.items) {
+    Item item;
+    item.id = itemAsset.id;
+    item.name = TextManager::GetInstance().Get(itemAsset.name_key);
+    item.description =
+        TextManager::GetInstance().Get(itemAsset.description_key);
+    item.taken = false;
+    item.correct_position = itemAsset.correct_order;
+    items_.push_back(item);
+  }
 
   vector<int> numbers = {1, 2, 3, 4};
   srand(static_cast<unsigned int>(time(nullptr)));
@@ -44,7 +49,7 @@ void ChillingTaverns::Play() {
   for (int i = 0; i < 4; ++i) items_[i].id = numbers[i];
 
   cout << "\n+----------------------------------------------------------+\n";
-  cout << "| " << TextManager::GetInstance().Get("chilling_items_title")
+  cout << "| " << TextManager::GetInstance().Get(locAsset.items_title_key)
        << "\n";
   for (const auto& item : items_) {
     cout << "|   " << TextManager::GetInstance().Get("chilling_number") << " "
@@ -52,7 +57,8 @@ void ChillingTaverns::Play() {
   }
   cout << "+----------------------------------------------------------+\n";
 
-  Screen::WaitForEnter(TextManager::GetInstance().Get("chilling_press_start"));
+  Screen::WaitForEnter(
+      TextManager::GetInstance().Get(locAsset.press_start_key));
 
   bool room_completed = false;
   while (!room_completed) {
@@ -102,25 +108,33 @@ void ChillingTaverns::Play() {
 }
 
 void ChillingTaverns::ShowRoomStatus() {
+  auto& assets = AssetManager::GetInstance();
+  const auto& locAsset = assets.GetLocation("ChillingTaverns");
+
   Screen::Clear();
-  Screen::DrawBorder(TextManager::GetInstance().Get("chilling_title"));
-  cout << "  " << TextManager::GetInstance().Get("chilling_entry2") << "\n\n";
-  cout << "  " << TextManager::GetInstance().Get("chilling_items_title")
+  Screen::DrawBorder(TextManager::GetInstance().Get(locAsset.title_key));
+  cout << "  " << TextManager::GetInstance().Get(locAsset.entry2_key) << "\n\n";
+  cout << "  " << TextManager::GetInstance().Get(locAsset.items_title_key)
        << "\n";
   for (const auto& item : items_) {
-    cout << "    " << TextManager::GetInstance().Get("chilling_number") << " "
-         << item.id << ". " << item.name << " - ";
-    cout << (item.taken ? "ВЗЯТО" : item.description) << "\n";
+    cout << "    " << item.id << ". " << item.name << " - "
+         << (item.taken ? "ВЗЯТО" : item.description) << "\n";
   }
   if (next_order_ <= 4) {
-    cout << "\n  "
-         << TextManager::GetInstance().Get("chilling_hint_" +
-                                           to_string(next_order_))
-         << "\n";
+    for (const auto& itemAsset : locAsset.items) {
+      if (itemAsset.correct_order == next_order_) {
+        cout << "\n  " << TextManager::GetInstance().Get(itemAsset.hint_key)
+             << "\n";
+        break;
+      }
+    }
   }
 }
 
 void ChillingTaverns::ShowCornerInfo(int corner_index) {
+  auto& assets = AssetManager::GetInstance();
+  const auto& locAsset = assets.GetLocation("ChillingTaverns");
+
   Screen::Clear();
   Screen::DrawBorder(TextManager::GetInstance().Get(
       "chilling_corner_" + to_string(corner_index + 1)));
@@ -176,40 +190,47 @@ string ChillingTaverns::GetSequenceString() const {
 }
 
 void ChillingTaverns::MeetBlacksmith() {
+  auto& assets = AssetManager::GetInstance();
+  const auto& locAsset = assets.GetLocation("ChillingTaverns");
+  const auto& bs = locAsset.blacksmith;
+
   Screen::Clear();
-  Screen::DrawBorder(
-      TextManager::GetInstance().Get("blacksmith_chilling_title"));
-  cout << "  " << TextManager::GetInstance().Get("blacksmith_chilling_intro")
-       << "\n\n";
-  cout << "  " << TextManager::GetInstance().Get("blacksmith_chilling_dialogue")
-       << "\n";
-  cout << "  " << TextManager::GetInstance().Get("blacksmith_chilling_prompt")
-       << "\n";
-  cout << "  "
-       << TextManager::GetInstance().Get("blacksmith_chilling_your_sequence")
-       << ": " << GetSequenceString() << "\n";
+  Screen::DrawBorder(TextManager::GetInstance().Get(bs.title_key));
+  cout << "  " << TextManager::GetInstance().Get(bs.intro_key) << "\n\n";
+  cout << "  " << TextManager::GetInstance().Get(bs.dialogue_key) << "\n";
+  cout << "  " << TextManager::GetInstance().Get(bs.prompt_key) << "\n";
+  cout << "  " << TextManager::GetInstance().Get(bs.your_sequence_key) << ": "
+       << GetSequenceString() << "\n";
   cout << "  ";
   string user_sequence;
   cin >> user_sequence;
 
   enchanted_ = (user_sequence == GetSequenceString());
-  weapon_name_ = TextManager::GetInstance().Get("inventory_knives");
+  const auto& weapon = assets.GetWeapon(locAsset.weapon_id);
+  weapon_name_ = TextManager::GetInstance().Get(weapon.name_key);
 
   cout << "\n  "
-       << (enchanted_
-               ? TextManager::GetInstance().Get("blacksmith_chilling_success")
-               : TextManager::GetInstance().Get("blacksmith_chilling_fail"))
+       << (enchanted_ ? TextManager::GetInstance().Get(bs.success_key)
+                      : TextManager::GetInstance().Get(bs.fail_key))
        << "\n";
   Screen::WaitForEnter();
   BattleWithMage();
 }
 
 void ChillingTaverns::BattleWithMage() {
-  Enemy mage(EnemyType::Mage,
-             TextManager::GetInstance().Get("battle_mage_title"), 120, 10);
+  auto& assets = AssetManager::GetInstance();
+  const auto& locAsset = assets.GetLocation("ChillingTaverns");
+
+  const auto& enemyAsset = assets.GetEnemy(locAsset.enemy_id);
+  Enemy mage;
+  mage.LoadFromAsset(enemyAsset);
+
+  const auto& weapon = assets.GetWeapon(locAsset.weapon_id);
+  string weapon_name = TextManager::GetInstance().Get(weapon.name_key);
+  int weapon_damage = enchanted_ ? weapon.enchanted_damage : weapon.base_damage;
 
   bool victory =
-      Combat::StartFight(mage, weapon_name_, enchanted_ ? 30 : 10, enchanted_);
+      Combat::StartFight(mage, weapon_name, weapon_damage, enchanted_);
   if (victory) {
     Player::GetInstance().SetKnivesEnchanted(enchanted_);
   }

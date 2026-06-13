@@ -4,6 +4,7 @@
 #include <ctime>
 #include <iostream>
 
+#include "AssetManager.h"
 #include "Combat.h"
 #include "Player.h"
 #include "Screen.h"
@@ -15,21 +16,25 @@ BoundlessTowers::BoundlessTowers()
     : completed_(false), enchanted_(false), next_order_(1) {}
 
 void BoundlessTowers::Play() {
-  Screen::Clear();
-  Screen::DrawBorder(TextManager::GetInstance().Get("boundless_title"));
-  cout << "  " << TextManager::GetInstance().Get("boundless_entry") << "\n";
-  cout << "  " << TextManager::GetInstance().Get("boundless_entry2") << "\n\n";
+  auto& assets = AssetManager::GetInstance();
+  const auto& locAsset = assets.GetLocation("BoundlessTowers");
 
-  items_ = {
-      {0, TextManager::GetInstance().Get("boundless_items_wood"),
-       TextManager::GetInstance().Get("boundless_items_wood_desc"), false, 1},
-      {0, TextManager::GetInstance().Get("boundless_items_string"),
-       TextManager::GetInstance().Get("boundless_items_string_desc"), false, 2},
-      {0, TextManager::GetInstance().Get("boundless_items_stone"),
-       TextManager::GetInstance().Get("boundless_items_stone_desc"), false, 3},
-      {0, TextManager::GetInstance().Get("boundless_items_wings"),
-       TextManager::GetInstance().Get("boundless_items_wings_desc"), false, 4},
-  };
+  Screen::Clear();
+  Screen::DrawBorder(TextManager::GetInstance().Get(locAsset.title_key));
+  cout << "  " << TextManager::GetInstance().Get(locAsset.entry_key) << "\n";
+  cout << "  " << TextManager::GetInstance().Get(locAsset.entry2_key) << "\n\n";
+
+  items_.clear();
+  for (const auto& itemAsset : locAsset.items) {
+    Item item;
+    item.id = itemAsset.id;
+    item.name = TextManager::GetInstance().Get(itemAsset.name_key);
+    item.description =
+        TextManager::GetInstance().Get(itemAsset.description_key);
+    item.taken = false;
+    item.correct_position = itemAsset.correct_order;
+    items_.push_back(item);
+  }
 
   vector<int> numbers = {1, 2, 3, 4};
   srand(static_cast<unsigned int>(time(nullptr)));
@@ -40,7 +45,7 @@ void BoundlessTowers::Play() {
   for (int i = 0; i < 4; ++i) items_[i].id = numbers[i];
 
   cout << "\n+----------------------------------------------------------+\n";
-  cout << "| " << TextManager::GetInstance().Get("boundless_items_title")
+  cout << "| " << TextManager::GetInstance().Get(locAsset.items_title_key)
        << "\n";
   for (const auto& item : items_) {
     cout << "|   " << TextManager::GetInstance().Get("chilling_number") << " "
@@ -48,7 +53,8 @@ void BoundlessTowers::Play() {
   }
   cout << "+----------------------------------------------------------+\n";
 
-  Screen::WaitForEnter(TextManager::GetInstance().Get("boundless_press_start"));
+  Screen::WaitForEnter(
+      TextManager::GetInstance().Get(locAsset.press_start_key));
 
   bool room_completed = false;
   while (!room_completed) {
@@ -97,24 +103,33 @@ void BoundlessTowers::Play() {
 }
 
 void BoundlessTowers::ShowRoomStatus() {
+  auto& assets = AssetManager::GetInstance();
+  const auto& locAsset = assets.GetLocation("BoundlessTowers");
+
   Screen::Clear();
-  Screen::DrawBorder(TextManager::GetInstance().Get("boundless_title"));
-  cout << "  " << TextManager::GetInstance().Get("boundless_entry2") << "\n\n";
-  cout << "  " << TextManager::GetInstance().Get("boundless_items_title")
+  Screen::DrawBorder(TextManager::GetInstance().Get(locAsset.title_key));
+  cout << "  " << TextManager::GetInstance().Get(locAsset.entry2_key) << "\n\n";
+  cout << "  " << TextManager::GetInstance().Get(locAsset.items_title_key)
        << "\n";
   for (const auto& item : items_) {
     cout << "    " << item.id << ". " << item.name << " - "
          << (item.taken ? "ВЗЯТО" : item.description) << "\n";
   }
   if (next_order_ <= 4) {
-    cout << "\n  "
-         << TextManager::GetInstance().Get("boundless_hint_" +
-                                           to_string(next_order_))
-         << "\n";
+    for (const auto& itemAsset : locAsset.items) {
+      if (itemAsset.correct_order == next_order_) {
+        cout << "\n  " << TextManager::GetInstance().Get(itemAsset.hint_key)
+             << "\n";
+        break;
+      }
+    }
   }
 }
 
 void BoundlessTowers::ShowCornerInfo(int corner_index) {
+  auto& assets = AssetManager::GetInstance();
+  const auto& locAsset = assets.GetLocation("BoundlessTowers");
+
   Screen::Clear();
   Screen::DrawBorder(TextManager::GetInstance().Get(
       "chilling_corner_" + to_string(corner_index + 1)));
@@ -168,40 +183,46 @@ string BoundlessTowers::GetSequenceString() const {
 }
 
 void BoundlessTowers::MeetBlacksmith() {
+  auto& assets = AssetManager::GetInstance();
+  const auto& locAsset = assets.GetLocation("BoundlessTowers");
+  const auto& bs = locAsset.blacksmith;
+
   Screen::Clear();
-  Screen::DrawBorder(
-      TextManager::GetInstance().Get("blacksmith_boundless_title"));
-  cout << "  " << TextManager::GetInstance().Get("blacksmith_boundless_intro")
-       << "\n";
-  cout << "  "
-       << TextManager::GetInstance().Get("blacksmith_boundless_dialogue")
-       << "\n";
-  cout << "  " << TextManager::GetInstance().Get("blacksmith_chilling_prompt")
-       << "\n";
-  cout << "  "
-       << TextManager::GetInstance().Get("blacksmith_chilling_your_sequence")
-       << ": " << GetSequenceString() << "\n  ";
+  Screen::DrawBorder(TextManager::GetInstance().Get(bs.title_key));
+  cout << "  " << TextManager::GetInstance().Get(bs.intro_key) << "\n";
+  cout << "  " << TextManager::GetInstance().Get(bs.dialogue_key) << "\n";
+  cout << "  " << TextManager::GetInstance().Get(bs.prompt_key) << "\n";
+  cout << "  " << TextManager::GetInstance().Get(bs.your_sequence_key) << ": "
+       << GetSequenceString() << "\n  ";
 
   string user_sequence;
   cin >> user_sequence;
   enchanted_ = (user_sequence == GetSequenceString());
-  weapon_name_ = TextManager::GetInstance().Get("inventory_bow");
+  const auto& weapon = assets.GetWeapon(locAsset.weapon_id);
+  weapon_name_ = TextManager::GetInstance().Get(weapon.name_key);
 
   cout << "\n  "
-       << (enchanted_
-               ? TextManager::GetInstance().Get("blacksmith_boundless_success")
-               : TextManager::GetInstance().Get("blacksmith_boundless_fail"))
+       << (enchanted_ ? TextManager::GetInstance().Get(bs.success_key)
+                      : TextManager::GetInstance().Get(bs.fail_key))
        << "\n";
   Screen::WaitForEnter();
   BattleWithShadow();
 }
 
 void BoundlessTowers::BattleWithShadow() {
-  Enemy shadow(EnemyType::Shadow,
-               TextManager::GetInstance().Get("battle_shadow_title"), 140, 12);
+  auto& assets = AssetManager::GetInstance();
+  const auto& locAsset = assets.GetLocation("BoundlessTowers");
 
-  bool victory = Combat::StartFight(shadow, weapon_name_, enchanted_ ? 30 : 10,
-                                    enchanted_);
+  const auto& enemyAsset = assets.GetEnemy(locAsset.enemy_id);
+  Enemy shadow;
+  shadow.LoadFromAsset(enemyAsset);
+
+  const auto& weapon = assets.GetWeapon(locAsset.weapon_id);
+  string weapon_name = TextManager::GetInstance().Get(weapon.name_key);
+  int weapon_damage = enchanted_ ? weapon.enchanted_damage : weapon.base_damage;
+
+  bool victory =
+      Combat::StartFight(shadow, weapon_name, weapon_damage, enchanted_);
   if (victory) {
     Player::GetInstance().SetBowEnchanted(enchanted_);
   }

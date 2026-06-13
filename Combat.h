@@ -1,9 +1,10 @@
 #ifndef COMBAT_H_
 #define COMBAT_H_
 
-#include <functional>
 #include <string>
+#include <unordered_map>
 
+#include "EnemyData.h"
 #include "Types.h"
 
 struct EnemyStats {
@@ -13,17 +14,26 @@ struct EnemyStats {
   Damage base_damage;
 };
 
-enum class EnemyType { Mage, Shadow, Ghost, Azazel };
-
 class Enemy {
  public:
-  Enemy(EnemyType type, const std::string& name, Health health, Damage damage);
+  Enemy();
+  Enemy(const std::string& type_id, const std::string& name, Health health,
+        Damage damage);
+
+  void LoadFromAsset(const EnemyAsset& asset);
 
   const std::string& GetName() const { return stats_.name; }
   Health GetHealth() const { return stats_.health; }
   Health GetMaxHealth() const { return stats_.max_health; }
   bool IsAlive() const { return stats_.health > 0; }
-  EnemyType GetType() const { return type_; }
+  const std::string& GetTypeId() const { return type_id_; }
+
+  void SetTypeId(const std::string& id) { type_id_ = id; }
+  void SetAbilityType(const std::string& type) { ability_type_ = type; }
+  void SetAbilityParams(
+      const std::unordered_map<std::string, std::string>& params) {
+    ability_params_ = params;
+  }
 
   void TakeDamage(Damage damage);
   Damage GetAttackDamage() const;
@@ -39,16 +49,16 @@ class Enemy {
   void ResetCopies();
 
   bool IsStaffVulnerable() const;
-
   Damage GetModifiedDamage(Damage damage) const;
-
   int GetInvisiblePosition() const;
-
   bool ProcessThrowAction(int& player_damage, Damage weapon_damage);
 
  private:
-  EnemyType type_;
+  std::string type_id_;
   EnemyStats stats_;
+
+  std::string ability_type_;
+  std::unordered_map<std::string, std::string> ability_params_;
 
   bool invisible_;
   int invisible_position_;
@@ -63,6 +73,12 @@ class Enemy {
   int turn_counter_ghost_;
 
   bool empowered_;
+
+  int GetIntParam(const std::string& key, int default_val = 0) const;
+  bool GetBoolParam(const std::string& key, bool default_val = false) const;
+  std::string GetStringParam(const std::string& key,
+                             const std::string& default_val = "") const;
+  std::vector<int> GetPositions() const;
 };
 
 class Combat {

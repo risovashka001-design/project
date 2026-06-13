@@ -1,0 +1,148 @@
+{
+  "locations": {
+    "ChillingTaverns": {
+      "title_key": "chilling_title",
+      "entry_key": "chilling_entry",
+      "entry2_key": "chilling_entry2",
+      "items_title_key": "chilling_items_title",
+      "press_start_key": "chilling_press_start",
+      "weapon_id": "knives",
+      "enemy_id": "mage",
+      "blacksmith": {
+        "title_key": "blacksmith_chilling_title",
+        "intro_key": "blacksmith_chilling_intro",
+        "dialogue_key": "blacksmith_chilling_dialogue",
+        "prompt_key": "blacksmith_chilling_prompt",
+        "your_sequence_key": "blacksmith_chilling_your_sequence",
+        "success_key": "blacksmith_chilling_success",
+        "fail_key": "blacksmith_chilling_fail"
+      },
+      "items": [
+        {
+          "id": 1,
+          "name_key": "chilling_items_steel",
+          "description_key": "chilling_items_steel_desc",
+          "correct_order": 1,
+          "hint_key": "chilling_hint_1"
+        },
+        {
+          "id": 2,
+          "name_key": "chilling_items_leather",
+          "description_key": "chilling_items_leather_desc",
+          "correct_order": 2,
+          "hint_key": "chilling_hint_2"
+        },
+        {
+          "id": 3,
+          "name_key": "chilling_items_stone",
+          "description_key": "chilling_items_stone_desc",
+          "correct_order": 3,
+          "hint_key": "chilling_hint_3"
+        },
+        {
+          "id": 4,
+          "name_key": "chilling_items_oil",
+          "description_key": "chilling_items_oil_desc",
+          "correct_order": 4,
+          "hint_key": "chilling_hint_4"
+        }
+      ]
+    },
+    "BoundlessTowers": {
+      "title_key": "boundless_title",
+      "entry_key": "boundless_entry",
+      "entry2_key": "boundless_entry2",
+      "items_title_key": "boundless_items_title",
+      "press_start_key": "boundless_press_start",
+      "weapon_id": "bow",
+      "enemy_id": "shadow",
+      "blacksmith": {
+        "title_key": "blacksmith_boundless_title",
+        "intro_key": "blacksmith_boundless_intro",
+        "dialogue_key": "blacksmith_boundless_dialogue",
+        "prompt_key": "blacksmith_chilling_prompt",
+        "your_sequence_key": "blacksmith_chilling_your_sequence",
+        "success_key": "blacksmith_boundless_success",
+        "fail_key": "blacksmith_boundless_fail"
+      },
+      "items": [
+        {
+          "id": 1,
+          "name_key": "boundless_items_wood",
+          "description_key": "boundless_items_wood_desc",
+          "correct_order": 1,
+          "hint_key": "boundless_hint_1"
+        },
+        {
+          "id": 2,
+          "name_key": "boundless_items_string",
+          "description_key": "boundless_items_string_desc",
+          "correct_order": 2,
+          "hint_key": "boundless_hint_2"
+        },
+        {
+          "id": 3,
+          "name_key": "boundless_items_stone",
+          "description_key": "boundless_items_stone_desc",
+          "correct_order": 3,
+          "hint_key": "boundless_hint_3"
+        },
+        {
+          "id": 4,
+          "name_key": "boundless_items_wings",
+          "description_key": "boundless_items_wings_desc",
+          "correct_order": 4,
+          "hint_key": "boundless_hint_4"
+        }
+      ]
+    },
+    "ElizabethCradle": {
+      "title_key": "elizabeth_title",
+      "entry_key": "elizabeth_entry",
+      "entry2_key": "elizabeth_entry2",
+      "items_title_key": "elizabeth_items_title",
+      "press_start_key": "elizabeth_press_start",
+      "weapon_id": "staff",
+      "enemy_id": "ghost",
+      "blacksmith": {
+        "title_key": "blacksmith_elizabeth_title",
+        "intro_key": "blacksmith_elizabeth_intro",
+        "dialogue_key": "blacksmith_elizabeth_dialogue",
+        "prompt_key": "blacksmith_chilling_prompt",
+        "your_sequence_key": "blacksmith_chilling_your_sequence",
+        "success_key": "blacksmith_elizabeth_success",
+        "fail_key": "blacksmith_elizabeth_fail"
+      },
+      "items": [
+        {
+          "id": 1,
+          "name_key": "elizabeth_items_tear",
+          "description_key": "elizabeth_items_tear_desc",
+          "correct_order": 1,
+          "hint_key": "elizabeth_hint_1"
+        },
+        {
+          "id": 2,
+          "name_key": "elizabeth_items_lullaby",
+          "description_key": "elizabeth_items_lullaby_desc",
+          "correct_order": 2,
+          "hint_key": "elizabeth_hint_2"
+        },
+        {
+          "id": 3,
+          "name_key": "elizabeth_items_mirror",
+          "description_key": "elizabeth_items_mirror_desc",
+          "correct_order": 3,
+          "hint_key": "elizabeth_hint_3"
+        },
+        {
+          "id": 4,
+          "name_key": "elizabeth_items_flower",
+          "description_key": "elizabeth_items_flower_desc",
+          "correct_order": 4,
+          "hint_key": "elizabeth_hint_4"
+        }
+      ]
+    }
+  }
+}

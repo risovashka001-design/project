@@ -1,0 +1,19 @@
+{
+  "weapons": {
+    "knives": {
+      "name_key": "inventory_knives",
+      "base_damage": 10,
+      "enchanted_damage": 30
+    },
+    "bow": {
+      "name_key": "inventory_bow",
+      "base_damage": 10,
+      "enchanted_damage": 30
+    },
+    "staff": {
+      "name_key": "inventory_staff",
+      "base_damage": 10,
+      "enchanted_damage": 30
+    }
+  }
+}
